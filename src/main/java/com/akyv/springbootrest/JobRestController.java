@@ -14,25 +14,39 @@ public class JobRestController {
     private JobService jobService;
 
     @GetMapping("jobPosts")
-    public List<JobPost> getAllJobs(){
+    public List<JobPost> getAllJobs() {
         return jobService.getAllJobs();
     }
+
     @GetMapping("jobPost/{postID}")
-    public JobPost getJob(@PathVariable("postID") int postId){
+    public JobPost getJob(@PathVariable("postID") int postId) {
         return jobService.getPost(postId);
     }
+
     @PostMapping("jobPost")
-    public JobPost addJob(@RequestBody JobPost jobPost){
+    public JobPost addJob(@RequestBody JobPost jobPost) {
         jobService.addJob(jobPost);
-        return  jobService.getPost(jobPost.getPostId());
+        return jobService.getPost(jobPost.getPostId());
     }
+
     @PutMapping("jobPost")
-    public JobPost updateJob(@RequestBody JobPost jobPost){
+    public JobPost updateJob(@RequestBody JobPost jobPost) {
         jobService.updateJob(jobPost);
-        return  jobService.getPost(jobPost.getPostId());
+        return jobService.getPost(jobPost.getPostId());
     }
+
     @DeleteMapping("jobPost/{postID}")
-    public Boolean deleteJob(@PathVariable("postID") int postId){
-        return jobService.deleteJob(postId);
+    public void deleteJob(@PathVariable("postID") int postId) {
+        jobService.deleteJob(postId);
+    }
+
+    @PostMapping("load")
+    public void loadJobs() {
+        jobService.loadJobs();
+    }
+
+    @GetMapping("jobPost/keyword/{keyword}")
+    public List<JobPost> getJobPostByKeyword(@PathVariable("keyword") String keyword){
+        return jobService.findByKeyword(keyword);
     }
 }
